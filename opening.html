@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Food Assistant</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Poppins", sans-serif;
+        }
+
+        body {
+            background: linear-gradient(to right, #3b82f6, #9333ea);
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            color: white;
+            position: relative;
+            flex-direction: column;
+        }
+
+        /* Navbar Styles */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 40px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(255, 255, 255, 0.2);
+            position: fixed;
+            top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90%;
+            max-width: 1200px;
+            z-index: 1000;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #00d4ff;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+        }
+
+        .nav-links {
+            list-style: none;
+            display: flex;
+            gap: 20px;
+        }
+
+        .nav-links li {
+            display: inline;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: white;
+            font-size: 18px;
+            padding: 8px 15px;
+            transition: 0.3s ease;
+            border-radius: 8px;
+        }
+
+        .nav-links a:hover {
+            background: #00d4ff;
+            color: #0d1117;
+        }
+
+        .wave {
+            position: absolute;
+            width: 150vw;
+            height: 150vh;
+            background: radial-gradient(circle, rgba(255,255,255,0.15) 10%, transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+            transition: transform 0.1s ease-out;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 400px;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(15px);
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            position: relative;
+            z-index: 10;
+            margin-top: 80px; /* Adjusted to prevent overlap with navbar */
+        }
+
+        h2 {
+            font-size: 24px;
+            font-weight: 600;
+        }
+
+        .upload-box {
+            border: 2px dashed rgba(255, 255, 255, 0.5);
+            padding: 20px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: 0.3s ease;
+            margin-top: 20px;
+        }
+
+        .upload-box:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        #preview {
+            width: 100%;
+            max-height: 300px;
+            object-fit: cover;
+            border-radius: 10px;
+            display: none;
+            margin-top: 15px;
+        }
+
+        .options {
+            display: none;
+            margin-top: 20px;
+        }
+
+        .button {
+            background: #9333ea;
+            color: #fff;
+            border: none;
+            padding: 12px 18px;
+            margin: 5px;
+            cursor: pointer;
+            border-radius: 10px;
+            font-size: 14px;
+            transition: 0.3s;
+            display: inline-block;
+        }
+
+        .button:hover {
+            background: #7b2cbf;
+        }
+
+        .hamburger {
+            font-size: 2rem;
+            cursor: pointer;
+            background: none;
+            border: none;
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            z-index: 20;
+            display: none;
+        }
+
+        .dashboard {
+            position: fixed;
+            left: -300px;
+            top: 50%;
+            transform: translateY(-50%);
+            padding: 2rem;
+            width: 350px;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(15px);
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            text-align: center;
+            opacity: 0;
+            transition: 0.3s;
+        }
+
+        .glass-effect {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+            display: none;
+            z-index: 15;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="logo">BiteRight</div>
+        <ul class="nav-links">
+            <li><a href="dashboard.html">Dashboard</a></li>
+            <li><a href="community.html">Community</a></li>
+        </ul>
+    </nav>
+
+    <div class="wave" id="wave"></div>
+    <button class="hamburger" id="hamburger" onclick="toggleDashboard()">&#9776;</button>
+    <div class="glass-effect" id="glass"></div>
+    
+    <div class="container">
+        <h2>🍽️ Food Assistant</h2>
+        <div class="upload-box" onclick="document.getElementById('upload').click()">
+            📸 Click to Take or Upload Picture
+        </div>
+        <input type="file" accept="image/*" id="upload" style="display: none;">
+        <img id="preview">
+        <div class="options">
+            <button class="button" onclick="suggestRecipe()">📖 Suggest Recipe</button>
+            <button class="button" onclick="predictExpiry()">⏳ Predict Expiry Date</button>
+        </div>
+    </div>
+    
+    <div class="dashboard" id="dashboard">
+        <h1>Welcome</h1>
+        <p>Monitor your food inventory, donations, and waste trends.</p>
+    </div>
+    
+    <script>
+        document.getElementById('upload').addEventListener('change', function(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById('preview').src = e.target.result;
+                    document.getElementById('preview').style.display = 'block';
+                    document.querySelector('.options').style.display = 'block';
+                    document.getElementById('hamburger').style.display = 'block';
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        function toggleDashboard() {
+            const dashboard = document.getElementById('dashboard');
+            const glass = document.getElementById('glass');
+            if (dashboard.style.left === "-300px") {
+                gsap.to(dashboard, { left: "20px", opacity: 1, duration: 0.8, ease: "power2.out" });
+                glass.style.display = "block";
+            } else {
+                gsap.to(dashboard, { left: "-300px", opacity: 0, duration: 0.6, ease: "power2.in" });
+                glass.style.display = "none";
+            }
+        }
+    </script>
+</body>
+</html>

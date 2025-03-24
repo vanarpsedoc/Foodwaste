@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Food Assistant - Discussion</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background: linear-gradient(to right, #3b82f6, #9333ea);
+      padding: 1rem;
+      position: relative;
+    }
+
+    .back-button {
+      position: absolute;
+      top: 1rem;
+      left: 1rem;
+      background: #ffffff;
+      color: #3b82f6;
+      padding: 0.5rem 1rem;
+      border: none;
+      border-radius: 0.5rem;
+      cursor: pointer;
+      font-size: 1rem;
+      font-weight: bold;
+      transition: background 0.3s;
+    }
+
+    .back-button:hover {
+      background: #e5e7eb;
+    }
+
+    .card {
+      background: white;
+      border-radius: 1rem;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      padding: 2rem;
+      width: 100%;
+      max-width: 500px;
+      animation: fadeInUp 0.5s ease-in-out;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .card h2 {
+      text-align: center;
+      color: #1f2937;
+      margin-bottom: 1rem;
+    }
+
+    .search-bar {
+      width: 100%;
+      padding: 0.75rem;
+      margin: 0.5rem 0;
+      border: 1px solid #d1d5db;
+      border-radius: 0.5rem;
+      font-size: 1rem;
+    }
+
+    .chat-box {
+      width: 100%;
+      height: 250px;
+      background: #f3f4f6;
+      padding: 1rem;
+      border-radius: 0.75rem;
+      overflow-y: auto;
+      margin-top: 1rem;
+    }
+
+    .chat-input {
+      display: flex;
+      width: 100%;
+      gap: 8px;
+      align-items: center;
+      margin-top: 8px;
+    }
+
+    .chat-input input {
+      flex-grow: 1;
+      padding: 0.75rem;
+      border: 1px solid #d1d5db;
+      border-radius: 0.5rem;
+      font-size: 1rem;
+    }
+
+    .chat-input button {
+      background: #3b82f6;
+      color: white;
+      padding: 0.75rem 1rem;
+      border: none;
+      border-radius: 0.5rem;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .chat-input button:hover { background: #2563eb; }
+
+    .upload-section {
+      display: flex;
+      width: 100%;
+      gap: 8px;
+      align-items: center;
+      background: #f3f4f6;
+      padding: 1rem;
+      border-radius: 0.75rem;
+      margin-top: 1rem;
+    }
+
+    .upload-section input {
+      flex-grow: 1;
+      padding: 0.75rem;
+      border: 1px solid #d1d5db;
+      border-radius: 0.5rem;
+      font-size: 1rem;
+    }
+
+    .upload-btn {
+      background: #3b82f6;
+      color: white;
+      padding: 0.75rem 1rem;
+      border: none;
+      border-radius: 0.5rem;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .upload-btn:hover { background: #2563eb; }
+
+    .post-list {
+      width: 100%;
+      max-height: 200px;
+      overflow-y: auto;
+      margin-top: 1rem;
+    }
+  </style>
+</head>
+<body>
+  <button class="back-button" onclick="goBack()">← Back</button>
+  <div class="card">
+    <h2>💬 Food Discussion Community</h2>
+    <input type="text" id="search" class="search-bar" placeholder="🔍 Search Posts..." onkeyup="searchPosts()">
+
+    <div class="chat-box" id="chatBox">
+      <p><strong>Community Chat:</strong></p>
+      <div id="chatMessages"></div>
+      <div class="chat-input">
+        <input type="text" id="chatInput" placeholder="Type a message...">
+        <button onclick="sendChatMessage()">Send</button>
+      </div>
+    </div>
+
+    <div class="upload-section">
+      <input type="text" id="caption" placeholder="Write a caption...">
+      <button class="upload-btn" onclick="uploadPost()">Post</button>
+    </div>
+
+    <div class="post-list" id="postList"></div>
+  </div>
+
+  <script>
+    function goBack() {
+      window.location.href = 'opening.html';
+    }
+
+    function sendChatMessage() {
+      const input = document.getElementById('chatInput');
+      const message = input.value.trim();
+      if (message) {
+        const chatBox = document.getElementById('chatMessages');
+        chatBox.innerHTML += `<p><strong>You:</strong> ${message}</p>`;
+        input.value = '';
+        chatBox.scrollTop = chatBox.scrollHeight;
+      }
+    }
+
+    function uploadPost() {
+      const caption = document.getElementById('caption').value;
+      if (!caption.trim()) {
+        alert("Please write a caption.");
+        return;
+      }
+      const postList = document.getElementById('postList');
+      const post = document.createElement("div");
+      post.innerHTML = `<p>${caption}</p>`;
+      postList.prepend(post);
+      document.getElementById('caption').value = '';
+    }
+
+    function searchPosts() {
+      const query = document.getElementById('search').value.toLowerCase();
+      document.querySelectorAll('.post-list div').forEach(post => {
+        post.style.display = post.innerText.toLowerCase().includes(query) ? "block" : "none";
+      });
+    }
+  </script>
+</body>
+</html>

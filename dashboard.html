@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Food Waste Reduction Dashboard</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f3f4f6;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .hamburger {
+            font-size: 2rem;
+            cursor: pointer;
+            background: none;
+            border: none;
+            position: absolute;
+            top: 20px;
+            left: 20px;
+        }
+
+        .dashboard {
+            display: none;
+            padding: 2rem;
+            max-width: 800px;
+            background: white;
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .card {
+            background: white;
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+    </style>
+</head>
+<body>
+    <button class="hamburger" onclick="toggleDashboard()">&#9776;</button>
+    
+    <div class="dashboard" id="dashboard">
+        <h1>Welcome to the Food Waste Reduction Dashboard</h1>
+        <p>Monitor your food inventory, donations, and predicted waste trends.</p>
+
+        <div class="cards">
+            <div class="card">
+                <h3>Current Inventory</h3>
+                <p>Fruits: 120 kg</p>
+                <p>Vegetables: 95 kg</p>
+                <p>Dairy: 45 kg</p>
+            </div>
+            <div class="card">
+                <h3>Recent Donations</h3>
+                <p>Last 7 days: 300 kg</p>
+                <p>Top Donor: Local Supermarket</p>
+            </div>
+            <div class="card">
+                <h3>Predicted Waste</h3>
+                <p>Next 7 days: 50 kg</p>
+                <p>Category: Bread & Dairy</p>
+            </div>
+            <div class="card">
+                <h3>Community Impact</h3>
+                <p>Meals Provided: 1,200</p>
+                <p>Volunteers: 35</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function toggleDashboard() {
+            const dashboard = document.getElementById('dashboard');
+            dashboard.style.display = dashboard.style.display === 'block' ? 'none' : 'block';
+        }
+    </script>
+</body>
+</html>
