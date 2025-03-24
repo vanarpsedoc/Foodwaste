@@ -106,10 +106,9 @@
     <form id="loginForm">
       <input type="email" id="email" placeholder="Email Address" required />
       <input type="password" id="password" placeholder="Password" required />
-      <a<button type="submit"> href="https://foodwaste-kappa.vercel.app/assets/opening.html">Login</button></a>
+      <button type="submit">Login</button>
     </form>
     <p>Don't have an account? <a href="signup.html">Sign up</a></p>
-
   </div>
 
   <script>
@@ -121,7 +120,10 @@
 
       console.log('User Login:', { email, password });
 
-      alert(`Welcome back!`);
+      alert('Welcome back!');
+
+      // Redirecting to the given URL after successful login
+      window.location.href = "https://foodwaste-kappa.vercel.app/assets/opening.html";
     });
   </script>
 </body>
